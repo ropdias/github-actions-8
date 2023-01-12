@@ -10,12 +10,15 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Load & cache dependencies
+        id: cache-deps
         # uses: ropdias/custom-action # we could use like this if the Custom Action was in a standalone repository named custom-action
         # We will add a relative path from the root of our project to our Custom Composite Action
         # we don't need to add the 'action.yml' part, GitHub Action will already expect that file
         uses: ./.github/actions/cached-deps 
         with:
           caching: 'false'
+      - name: Output Information
+        run: echo "Cache used? ${{ steps.cache-deps.outputs.used-cache }}"
       - name: Lint code
         run: npm run lint
   test:
