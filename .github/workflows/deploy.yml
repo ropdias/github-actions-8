@@ -9,15 +9,11 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Load & cache dependencies
+        # uses: ropdias/custom-action # we could use like this if the Custom Action was in a standalone repository named custom-action
+        # We will add a relative path from the root of our project to our Custom Composite Action
+        # we don't need to add the 'action.yml' part, GitHub Action will already expect that file
+        uses: ./.github/actions/cached-deps 
       - name: Lint code
         run: npm run lint
   test:

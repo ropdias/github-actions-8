@@ -1,0 +1,16 @@
+name: 'Get & Cache Dependencies'
+# Custom Actions doenst have the "on" keyword. Because they are not workflows, instead they are part of workflows.
+description: 'Get the dependencies (via npm) and cache them.'
+runs:
+  using: 'composite' # this will GitHub Actions that this is a custom composite action
+  steps:
+    - name: Cache dependencies
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      shell: bash # We need to add this to a custom composite action if we are using the run key
