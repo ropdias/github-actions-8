@@ -13,7 +13,7 @@ outputs:
     description: 'Whether the cache was used'
     value: ${{ steps.install.outputs.cache }}
 runs:
-  using: 'composite' # this will GitHub Actions that this is a custom composite action
+  using: 'composite' # this will tell GitHub Actions that this is a custom composite action
   steps:
     - name: Cache dependencies
       if: inputs.caching == 'true'
