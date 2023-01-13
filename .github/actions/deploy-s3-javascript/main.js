@@ -19,11 +19,14 @@ const run = () => {
 
   // 2) Upload files
   // We have AWS CLI pre-installed in the ubuntu-latest:
-  const s3Uri = `s3://${bucket}` 
+  const s3Uri = `s3://${bucket}`;
   // The command below will look for the env variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to authenticate
-  exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${bucketRegion}`)
+  exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${bucketRegion}`);
 
-  core.notice("Hello from my custom JavaScript Action!");
+  // core.notice("Hello from my custom JavaScript Action!");
+
+  const websiteUrl = `http://${bucket}.s3-website-${bucketRegion}.amazonaws.com`;
+  core.setOutput("website-url", websiteUrl);
 };
 
 run();
